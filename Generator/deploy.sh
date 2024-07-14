@@ -66,7 +66,7 @@ sleep 300
 echo "##################### Sleeping before warmup ##################################################"
 
 #Lancer le générateur de charge HTTP
-java -jar httploadgenerator.jar director -s localhost -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 256
+java -jar httploadgenerator.jar director -s 172.16.192.21 -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 256
 
 echo "##################### Sleeping before load ##################################################"
 
@@ -77,7 +77,7 @@ result="output-$output_part.csv"
 res="output-$output_part.csv"
 
 
-java -jar httploadgenerator.jar director -s localhost -a "$file_name" -l "./teastore_buy.lua" -o $result -t 256
+java -jar httploadgenerator.jar director -s 172.16.192.21 -a "$file_name" -l "./teastore_buy.lua" -o $result -t 256
 
 echo "#########################Load Injection finished######################################"
 

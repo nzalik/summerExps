@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
 
@@ -32,7 +34,7 @@ fi
 #   "intensity_profile-three-21-06-2024-10min-100.0requests.csv",
 #)
 
-workload_dir="../Load/intensity_profiles_2024-07-13_16-16-05"
+workload_dir="../Load/intensity_profiles_2024-07-14"
 
 workload_files=($(ls "$workload_dir"/*.csv))
 
@@ -42,7 +44,7 @@ warmupFile="../warmUp/${warmup}"
 
 echo $warmupFile
 
-export KUBECONFIG=/home/erods-chouette/admin.conf
+export KUBECONFIG=/home/ykoagnenzali/admin.conf
 
 #for file_name in workload_files:
 for file_name in "${workload_files[@]}"; do
@@ -85,7 +87,7 @@ python3 ../Fetcher/PostFetcher.py $res
 
 sleep 180
 
-mv ../Load/intensity_profiles_2024-07-13_16-16-05/$result $lOutput
+mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
 
 kubectl delete pods,deployments,services -l app=teastore
 

@@ -2,6 +2,8 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
+target="172.16.192.20"
+
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
 
@@ -66,7 +68,7 @@ sleep 300
 echo "##################### Sleeping before warmup ##################################################"
 
 #Lancer le générateur de charge HTTP
-java -jar httploadgenerator.jar director -s 172.16.192.21 -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 256
+java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 10
 
 echo "##################### Sleeping before load ##################################################"
 
@@ -77,17 +79,20 @@ result="output-$output_part.csv"
 res="output-$output_part.csv"
 
 
-java -jar httploadgenerator.jar director -s 172.16.192.21 -a "$file_name" -l "./teastore_buy.lua" -o $result -t 256
+java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t 10
 
 echo "#########################Load Injection finished######################################"
 
 sleep 180
 
-python3 ../Fetcher/PostFetcher.py $res
+moveRepo="../Load/intensity_profiles_2024-07-14/"
+
+python3 ../Fetcher/PostFetcher.py $res $moveRepo
 
 sleep 180
 
-mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
+#mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
+mv .$moveRepo$result $lOutput
 
 kubectl delete pods,deployments,services -l app=teastore
 

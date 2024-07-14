@@ -9,10 +9,13 @@ import matplotlib.pyplot as plt
 import time
 
 string_argument = ""
+repo_argument = ""
 
 if len(sys.argv) > 1:
     string_argument = sys.argv[1]
+    repo_argument = sys.argv[2]
     print(string_argument)
+    print(repo_argument)
 
 file_path = '../teastore.json'
 
@@ -178,7 +181,8 @@ requetes_section = config['requetes']
 
 
 # Chemin vers le csv que je viens de générer apres injection de charges
-csv_file_path = f"../Load/intensity_profiles_2024-07-13_16-16-05/{string_argument}"
+#csv_file_path = f"../Load/intensity_profiles_2024-07-13_16-16-05/{string_argument}"
+csv_file_path = f"{repo_argument}{string_argument}"
 formatted_timestamp = process_csv_line(csv_file_path)
 
 current_date = datetime.now().strftime('%Y-%m-%d')

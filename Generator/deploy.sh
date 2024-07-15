@@ -35,12 +35,12 @@ fi
 #workload_files=(
 #   "intensity_profile-three-21-06-2024-10min-100.0requests.csv",
 #)
-
-workload_dir="../Load/intensity_profiles_2024-07-14"
+workload_date=$(date +"%Y-%m-%d")
+workload_dir="../Load/intensity_profiles_$workload_date"
 
 workload_files=($(ls "$workload_dir"/*.csv))
 
-warmup="intensity_profile-three-26-06-2024-3min-10.0requests.csv"
+warmup="3min-10.0requests.csv"
 
 warmupFile="../warmUp/${warmup}"
 

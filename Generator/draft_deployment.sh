@@ -97,7 +97,7 @@ python3 ../Fetcher/PostFetcher.py $res $workload_dir
 sleep 60
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
-mv .$workload_dir$result $lOutput
+mv ".$workload_dir/$result" $lOutput
 
 #kubectl delete pods,deployments,services -l app=teastore
 

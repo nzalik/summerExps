@@ -30,6 +30,7 @@ def process_csv_line(csv_file):
         str: Timestamp formaté.
     """
 
+    print("process sur le csv position")
     print(csv_file)
     with open(csv_file, 'r') as file:
         reader = csv.reader(file)
@@ -187,6 +188,9 @@ requetes_section = config['requetes']
 # Chemin vers le csv que je viens de générer apres injection de charges
 csv_file_path = f"{repo_argument}/{string_argument}"
 
+print("le chemin pour aller")
+print(csv_file_path)
+
 formatted_timestamp = process_csv_line(csv_file_path)
 
 current_date = datetime.now().strftime('%Y-%m-%d')
@@ -266,6 +270,9 @@ for start_datetime_str in date_list:
 
         directory2 = path_to_save(dir_name) + "/pod_info"
         directory3 = path_to_save(dir_name) + "/aggregation"
+
+        print("url pour save")
+        print(directory3)
 
         filename = container_name + '.json'
         filename2 = 'aggregation.json'

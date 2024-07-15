@@ -185,7 +185,7 @@ requetes_section = config['requetes']
 
 
 # Chemin vers le csv que je viens de générer apres injection de charges
-csv_file_path = f"{repo_argument}+/+{string_argument}"
+csv_file_path = f"{repo_argument}/{string_argument}"
 
 formatted_timestamp = process_csv_line(csv_file_path)
 

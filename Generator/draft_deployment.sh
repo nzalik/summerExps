@@ -4,6 +4,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 target="172.16.192.18"
 
+nb_thread=256
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
 
@@ -71,7 +72,7 @@ sleep 60
 echo "##################### Sleeping before warmup ##################################################"
 
 #Lancer le générateur de charge HTTP
-java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 10
+java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t $nb_thread
 
 echo "##################### Sleeping before load ##################################################"
 
@@ -82,7 +83,7 @@ result="output-$output_part.csv"
 res="output-$output_part.csv"
 
 
-java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t 10
+java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread
 
 echo "#########################Load Injection finished######################################"
 

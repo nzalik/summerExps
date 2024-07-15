@@ -98,7 +98,7 @@ python3 ../Fetcher/PostFetcher.py $res $workload_dir
 
 sleep 60
 
-mkdir ./load_injector
+#mkdir ./load_injector
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
 #mv ".$workload_dir/$result" $lOutput

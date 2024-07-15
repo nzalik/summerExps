@@ -78,9 +78,10 @@ echo "##################### Initialisation #####################################
 
 #sleep 30
 
-result="output-$output_part.csv"
+result="$output_part.csv"
+#result="output-$output_part.csv"
 
-res="output-$output_part.csv"
+res="$output_part.csv"
 
 
 #java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread

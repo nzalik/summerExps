@@ -102,7 +102,7 @@ mkdir ./load_injector
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
 #mv ".$workload_dir/$result" $lOutput
-mv ".$workload_dir/$result" ./load_injector
+mv "$workload_dir/$result" ./load_injector
 
 #kubectl delete pods,deployments,services -l app=teastore
 

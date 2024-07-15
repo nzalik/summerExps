@@ -11,7 +11,7 @@ parent_dir=$(dirname $(pwd))
 date_str=$(date +"%d-%m-%Y")
 
 # Chemin complet du nouveau dossier
-new_folder_path="$parent_dir/$date_str"
+new_folder_path="$parent_dir/nantes/hyperthreading/$date_str"
 
 # Créer le nouveau dossier s'il n'existe pas déjà
 if [ ! -d "$new_folder_path" ]; then
@@ -36,7 +36,7 @@ fi
 #   "intensity_profile-three-21-06-2024-10min-100.0requests.csv",
 #)
 workload_date=$(date +"%Y-%m-%d")
-workload_dir="../Load/intensity_profiles_$workload_date"
+workload_dir="../Load/profiles_$workload_date"
 
 workload_files=($(ls "$workload_dir"/*.csv))
 
@@ -85,14 +85,14 @@ echo "#########################Load Injection finished##########################
 
 sleep 180
 
-moveRepo="../Load/intensity_profiles_2024-07-14/"
+#moveRepo="../Load/intensity_profiles_2024-07-14/"
 
-python3 ../Fetcher/PostFetcher.py $res $moveRepo
+python3 ../Fetcher/PostFetcher.py $res $workload_dir
 
 sleep 180
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
-mv .$moveRepo$result $lOutput
+mv .$workload_dir$result $lOutput
 
 kubectl delete pods,deployments,services -l app=teastore
 

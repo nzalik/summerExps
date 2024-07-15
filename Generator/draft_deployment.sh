@@ -64,7 +64,7 @@ echo "$output_part"
 echo "##################### Initialisation ##################################################"
 
 # Créer le déploiement Kubernetes
-kubectl create -f ../custom_deployments/teastore-clusterip-1cpu-5giga.yaml
+#kubectl create -f ../custom_deployments/teastore-clusterip-1cpu-5giga.yaml
 
 sleep 60
 

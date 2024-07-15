@@ -40,7 +40,7 @@ workload_dir="../Load/profiles_$workload_date"
 
 pwd
 
-workload_files=($(ls "$workload_dir"/l*.csv))
+workload_files=($(ls "$workload_dir"/*.csv))
 
 
 warmup="3min-10.0requests.csv"

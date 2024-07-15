@@ -17,7 +17,7 @@ def generate_linear_profile(duration, step_sizes, start_value):
     os.makedirs(dir_name, exist_ok=True)
 
     for step_size in step_sizes:
-        file_name = f"constant_{step_size}requests_per_sec.csv"
+        file_name = f"const_linear_{step_size}requests_per_sec.csv"
         file_path = os.path.join(dir_name, file_name)
 
         with open(file_path, 'w', newline='') as csv_file:
@@ -25,15 +25,19 @@ def generate_linear_profile(duration, step_sizes, start_value):
             writer.writerow(['timestamp', 'requests'])
 
             current_timestamp = start_value
-            while current_timestamp <= duration:
+            while current_timestamp <= 180:  # Première partie : progression linéaire jusqu'à 180 secondes
+                writer.writerow([current_timestamp, step_size * (current_timestamp / 180)])
+                current_timestamp += 1
+
+            while current_timestamp <= 600:  # Deuxième partie : charge stable jusqu'à 600 secondes
                 writer.writerow([current_timestamp, step_size])
                 current_timestamp += 1
 
         print(f"Profil de charge linéaire généré : {file_path}")
 
 # Paramètres de configuration
-DURATION = 600.5  # Durée totale du profil de charge (en secondes)
-STEP_SIZES = [10, 20]  # Tailles de progression à utiliser
+DURATION = 300  # Durée totale du profil de charge (en secondes)
+STEP_SIZES = [80]  # Tailles de progression à utiliser
 START_VALUE = 0.5  # Valeur de départ
 
 generate_linear_profile(DURATION, STEP_SIZES, START_VALUE)

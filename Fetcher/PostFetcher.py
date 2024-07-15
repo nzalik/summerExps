@@ -129,12 +129,16 @@ window2 = 10
 prom_url = parameters['PROMETHEUS_URL']
 
 today = date.today()
-dir_name = today.strftime("%d-%m-%Y")
+date_str = today.strftime("%d-%m-%Y")
+
+dir_name = f"../nantes/hyperthreading/{date_str}/data/metrics"
+
+#dir_name = today.strftime("%d-%m-%Y")
 
 #save_path = f"../{dir_name}"  #The directory where you want things to be saved
-# if not os.path.exists(dir_name):
-#     os.makedirs(dir_name)
 
+if not os.path.exists(dir_name):
+    os.makedirs(dir_name)
 
 cpu_step = "2m"
 step = "1s"
@@ -181,7 +185,6 @@ requetes_section = config['requetes']
 
 
 # Chemin vers le csv que je viens de générer apres injection de charges
-#csv_file_path = f"../Load/intensity_profiles_2024-07-13_16-16-05/{string_argument}"
 csv_file_path = f"{repo_argument}{string_argument}"
 formatted_timestamp = process_csv_line(csv_file_path)
 

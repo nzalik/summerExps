@@ -5,8 +5,8 @@ from time import sleep
 
 #user = input(f"Grid'5000 username (default is {os.getlogin()}): ") or os.getlogin()
 user = "ykoagnenzali "
-#password = "GPuVQr2G!Rw2YM9"
-password = ""
+password = "GPuVQr2G!Rw2YM9"
+#password = ""
 #password = input("Grid'5000 password (leave blank on frontends): ")
 g5k_auth = (user, password) if password else None
 
@@ -18,7 +18,7 @@ api_job_url = f"https://api.grid5000.fr/stable/sites/{site_id}/jobs"
 
 payload = {
     "resources": "nodes=1,walltime=4:00",
-    "command": 'java -jar ./summerExps/whttploadgenerator.jar loadgenerator; sleep 14000',
+    "command": 'java -jar ./summerExps/worker/httploadgenerator.jar loadgenerator; sleep 14000',
     "stdout": "api-test-stdout",
     "properties": f"cluster='{cluster}'",
     "name": "api-test"

@@ -67,27 +67,27 @@ echo "##################### Initialisation #####################################
 # Créer le déploiement Kubernetes
 #kubectl create -f ../custom_deployments/teastore-clusterip-1cpu-5giga.yaml
 
-sleep 60
+#sleep 60
 
-echo "##################### Sleeping before warmup ##################################################"
+#echo "##################### Sleeping before warmup ##################################################"
 
 #Lancer le générateur de charge HTTP
-java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t $nb_thread
+#java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t $nb_thread
 
-echo "##################### Sleeping before load ##################################################"
+#echo "##################### Sleeping before load ##################################################"
 
-sleep 30
+#sleep 30
 
 result="output-$output_part.csv"
 
 res="output-$output_part.csv"
 
 
-java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread
+#java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread
 
 echo "#########################Load Injection finished######################################"
 
-sleep 60
+#sleep 60
 
 #moveRepo="../Load/intensity_profiles_2024-07-14/"
 

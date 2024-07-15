@@ -38,7 +38,7 @@ fi
 workload_date=$(date +"%Y-%m-%d")
 workload_dir="../Load/profiles_$workload_date"
 
-workload_files=($(ls "$workload_dir"/*.csv))
+workload_files=($(ls "$workload_dir"/l*.csv))
 
 warmup="3min-10.0requests.csv"
 

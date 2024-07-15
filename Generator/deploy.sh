@@ -2,7 +2,7 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.20"
+target="172.16.192.6"
 
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
@@ -55,7 +55,7 @@ echo $file_name
 
 input_string=$file_name
 output_part=$(basename "$input_string" .csv)
-output_part="${output_part#intensity_profile_}"
+output_part="${output_part#profiles_}"
 echo "$output_part"
 
 echo "##################### Initialisation ##################################################"

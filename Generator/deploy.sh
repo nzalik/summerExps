@@ -38,7 +38,7 @@ fi
 workload_date=$(date +"%Y-%m-%d")
 workload_dir="../Load/profiles_$workload_date"
 
-echo pwd
+pwd
 
 workload_files=($(ls "$workload_dir"/l*.csv))
 

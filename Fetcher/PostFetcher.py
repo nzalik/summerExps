@@ -55,7 +55,7 @@ def read_ini_file(file_path):
     return config
 
 def path_to_save(init_path):
-    output_path = output_path = f"../{init_path}/experimentation-{string_argument}"
+    output_path = f"../{init_path}/experimentation-{string_argument}"
     if os.path.exists(init_path):
         # Construire le nouveau nom de répertoire
         new_dir_name = f"data_{datetime.now().strftime('%H')}"

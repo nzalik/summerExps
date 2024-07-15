@@ -4,6 +4,9 @@ export PATH="$HOME/.local/bin:$PATH"
 
 target="172.16.192.6"
 
+nb_thread=256
+
+
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
 
@@ -16,6 +19,10 @@ new_folder_path="$parent_dir/nantes/hyperthreading/$date_str"
 # Créer le nouveau dossier s'il n'existe pas déjà
 if [ ! -d "$new_folder_path" ]; then
     mkdir "$new_folder_path"
+fi
+
+if [ ! -d "load_injector" ]; then
+    mkdir "load_injector"
 fi
 
 wOutput="$new_folder_path/warmUpOutput"
@@ -43,7 +50,7 @@ pwd
 workload_files=($(ls "$workload_dir"/*.csv))
 
 
-warmup="const_linear_80requests_per_sec.csv"
+warmup="const_linear_70requests_per_sec.csv"
 
 warmupFile="../warmUp/${warmup}"
 
@@ -71,18 +78,19 @@ sleep 300
 echo "##################### Sleeping before warmup ##################################################"
 
 #Lancer le générateur de charge HTTP
-java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t 10
+java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t $nb_thread
 
 echo "##################### Sleeping before load ##################################################"
 
 sleep 240
 
-result="output-$output_part.csv"
+result="$output_part.csv"
+#result="output-$output_part.csv"
 
-res="output-$output_part.csv"
+res="$output_part.csv"
 
 
-java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t 10
+java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread
 
 echo "#########################Load Injection finished######################################"
 
@@ -95,7 +103,7 @@ python3 ../Fetcher/PostFetcher.py $res $workload_dir
 sleep 180
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
-mv .$workload_dir$result $lOutput
+mv "$workload_dir/$result" ./load_injector
 
 kubectl delete pods,deployments,services -l app=teastore
 

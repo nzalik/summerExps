@@ -10,22 +10,26 @@ from datetime import datetime, timedelta, date
 
 x = 1
 
-while x < 10:
+while x <= 1:
     def read_parameters_from_json(file_path):
         with open(file_path, 'r') as file:
             parameters = json.load(file)
         return parameters
 
 
-    plot_path = "../nantes/hyperthreading/12-07-2024/data/load/"
+    plot_path = "../nantes/hyperthreading/15-07-2024/data/load/"
 
-    fileToPlot = f"output-constant_{x}0requests_per_sec.csv"
+   # fileToPlot = f"output-constant_{x}0requests_per_sec.csv"
+    fileToPlot = f"output-linear_80requests_max_per_sec.csv"
 
     cpu_step = "2m"
 
     file_path = '../teastore.json'
 
-    save_path = f"../nantes/hyperthreading/12-07-2024/data/metrics/experimentation-output-constant_{x}0requests_per_sec/"
+    #save_path = f"../nantes/hyperthreading/15-07-2024/data/metrics/experimentation-output-constant_{x}0requests_per_sec/"
+    save_path = f"../nantes/hyperthreading/15-07-2024/data/metrics/experimentation-output-linear_80requests_max_per_sec.csv/"
+
+    save_graphics_at = f"../nantes/hyperthreading/15-07-2024/Plots"
 
     parameters = read_parameters_from_json(file_path)
 
@@ -142,7 +146,7 @@ while x < 10:
     dir_name = today.strftime("%d-%m-%Y")
 
     #save_graphics_at = f"../Plots/{dir_name}"  #TFB8500
-    save_graphics_at = f"../Plots"  #TFB8500
+    #save_graphics_at = f"../Plots"  #TFB8500
     # he directory where you want things to be saved
     if not os.path.exists(save_graphics_at):
         os.makedirs(save_graphics_at)
@@ -264,6 +268,14 @@ while x < 10:
         df = pd.concat([df] + nouvelles_lignes, ignore_index=True)
     elif lastEl > 0:
         df = df.head(int(lastEl))
+        target_time = lastEl + 0.5
+        nouvelle_ligne = pd.DataFrame([[target_time, 0, 0, 0, 0, 0, 0]],
+                                      columns=['Target Time', 'Load Intensity', 'Successful Transactions',
+                                               'Failed Transactions', 'Dropped Transactions', 'Avg Response Time',
+                                               'Final Batch Dispatch Time'])
+
+        df = pd.concat([df] + [nouvelle_ligne], ignore_index=True)
+        #df.to_csv(f"output{x}.csv", index=False)
 
     df['Target Time'] = df['Target Time'].astype(int)
 

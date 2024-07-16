@@ -10,10 +10,13 @@ import time
 
 string_argument = ""
 repo_argument = ""
+complete_storage_dir = ""
 
 if len(sys.argv) > 1:
     string_argument = sys.argv[1]
     repo_argument = sys.argv[2]
+    complete_storage_dir = sys.argv[3] #linear or constant
+
     print(string_argument)
     print(repo_argument)
 
@@ -132,7 +135,8 @@ prom_url = parameters['PROMETHEUS_URL']
 today = date.today()
 date_str = today.strftime("%d-%m-%Y")
 
-dir_name = f"../nantes/hyperthreading/{date_str}/data/metrics"
+#dir_name = f"../nantes/hyperthreading/{category}/{date_str}/data/metrics"
+dir_name = f"{complete_storage_dir}/data/metrics"
 
 #dir_name = today.strftime("%d-%m-%Y")
 

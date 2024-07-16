@@ -2,7 +2,7 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.6"
+target="172.16.192.8"
 
 nb_thread=256
 
@@ -12,20 +12,29 @@ parent_dir=$(dirname $(pwd))
 # Obtenir la date actuelle
 date_str=$(date +"%d-%m-%Y")
 
+category="constant"
+
 # Chemin complet du nouveau dossier
-new_folder_path="$parent_dir/nantes/hyperthreading/$date_str"
+new_folder_path="$parent_dir/nantes/hyperthreading/$category/$date_str"
 
 # Créer le nouveau dossier s'il n'existe pas déjà
 if [ ! -d "$new_folder_path" ]; then
     mkdir "$new_folder_path"
 fi
 
-if [ ! -d "load_injector" ]; then
-    mkdir "load_injector"
+# Compter le nombre de fichiers dans le répertoire $date_str
+file_count=$(ls -1 "$new_folder_path" | wc -l)
+
+# Créer le sous-répertoire "experimentation" avec le numéro
+exp_folder_path="$new_folder_path/experimentation$((file_count + 1))"
+
+if [ ! -d "$exp_folder_path" ]; then
+    mkdir "$exp_folder_path"
 fi
 
-wOutput="$new_folder_path/warmUpOutput"
-lOutput="$new_folder_path/LoadOutput"
+
+wOutput="exp_folder_path/warmup"
+lOutput="exp_folder_path/data/load"
 
 if [ ! -d "$wOutput" ]; then
     mkdir -p "$wOutput"
@@ -97,12 +106,12 @@ sleep 180
 
 #moveRepo="../Load/intensity_profiles_2024-07-14/"
 
-python3 ../Fetcher/PostFetcher.py $res $workload_dir
+python3 ../Fetcher/PostFetcher.py $res $workload_dir $exp_folder_path
 
 sleep 180
 
 #mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
-mv "$workload_dir/$result" ./load_injector
+mv "$workload_dir/$result" $lOutput
 
 kubectl delete pods,deployments,services -l app=teastore
 

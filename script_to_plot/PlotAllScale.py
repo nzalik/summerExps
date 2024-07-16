@@ -126,7 +126,7 @@ while x < 10:
 
             color = get_color_for_service(label)
 
-            plt.plot(greater_than_valueReduce, lissageValues, '.-', color=color, label=label)
+            plt.plot(greater_than_valueReduce, lissageValues, color=color, label=label)
             return greater_than_valueReduce
         return []
 
@@ -141,7 +141,8 @@ while x < 10:
     today = date.today()
     dir_name = today.strftime("%d-%m-%Y")
 
-    save_graphics_at = f"../Plots/{dir_name}"  #TFB8500
+    #save_graphics_at = f"../Plots/{dir_name}"  #TFB8500
+    save_graphics_at = f"../Plots"  #TFB8500
     # he directory where you want things to be saved
     if not os.path.exists(save_graphics_at):
         os.makedirs(save_graphics_at)
@@ -240,7 +241,7 @@ while x < 10:
 
     nombre_lignes = len(df)
 
-    lastEl = 603
+    lastEl = 600
     # if nombre_lignes > 0:
     #     test = nombre_lignes
     if nombre_lignes > lastEl:

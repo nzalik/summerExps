@@ -2,7 +2,7 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.6"
+target="172.16.192.17"
 
 nb_thread=265
 
@@ -58,7 +58,7 @@ pwd
 workload_files=($(ls "$workload_dir"/*.csv))
 
 
-warmup="const_linear_70requests_per_sec.csv"
+warmup="const_linear_80requests_per_sec.csv"
 
 warmupFile="../warmUp/${warmup}"
 

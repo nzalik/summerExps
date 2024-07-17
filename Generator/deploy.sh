@@ -2,9 +2,9 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.22"
+target="172.16.192.6"
 
-nb_thread=128
+nb_thread=265
 
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
@@ -19,7 +19,7 @@ new_folder_path="$parent_dir/nantes/hyperthreading/$category/$date_str"
 
 # Créer le nouveau dossier s'il n'existe pas déjà
 if [ ! -d "$new_folder_path" ]; then
-    mkdir "$new_folder_path"
+    mkdir -p "$new_folder_path"
 fi
 
 # Compter le nombre de fichiers dans le répertoire $date_str
@@ -29,7 +29,7 @@ file_count=$(ls -1 "$new_folder_path" | wc -l)
 exp_folder_path="$new_folder_path/experimentation$((file_count + 1))"
 
 if [ ! -d "$exp_folder_path" ]; then
-    mkdir "$exp_folder_path"
+    mkdir -p "$exp_folder_path"
 fi
 
 

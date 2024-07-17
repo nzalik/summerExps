@@ -17,7 +17,7 @@ cluster = "econome"
 api_job_url = f"https://api.grid5000.fr/stable/sites/{site_id}/jobs"
 
 payload = {
-    "resources": "nodes=1,walltime=4:00",
+    "resources": "nodes=1,walltime=6:00",
     "command": 'sleep 14000',
     "stdout": "api-test-stdout",
     "properties": f"cluster='{cluster}'",

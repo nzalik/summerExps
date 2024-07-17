@@ -2,9 +2,9 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.8"
+target="172.16.192.22"
 
-nb_thread=256
+nb_thread=128
 
 # Obtenir le répertoire parent
 parent_dir=$(dirname $(pwd))
@@ -12,7 +12,7 @@ parent_dir=$(dirname $(pwd))
 # Obtenir la date actuelle
 date_str=$(date +"%d-%m-%Y")
 
-category="constant"
+category="linear"
 
 # Chemin complet du nouveau dossier
 new_folder_path="$parent_dir/nantes/hyperthreading/$category/$date_str"
@@ -33,8 +33,8 @@ if [ ! -d "$exp_folder_path" ]; then
 fi
 
 
-wOutput="exp_folder_path/warmup"
-lOutput="exp_folder_path/data/load"
+wOutput="$exp_folder_path/warmup"
+lOutput="$exp_folder_path/data/load"
 
 if [ ! -d "$wOutput" ]; then
     mkdir -p "$wOutput"

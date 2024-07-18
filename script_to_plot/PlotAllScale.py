@@ -8,7 +8,7 @@ import pandas as pd
 import json
 from datetime import datetime, timedelta, date
 
-elts = [10, 100]
+elts = [130, 100]
 #x = 1
 
 #while x <= 1:
@@ -19,19 +19,19 @@ for x in elts:
         return parameters
 
 
-    plot_path = "../nantes/hyperthreading/16-07-2024/data/load/"
+    plot_path = "../nantes/hyperthreading/linear/17-07-2024/experimentation1/data/load/"
 
-    fileToPlot = f"constant_{x}requests_per_sec.csv"
+    fileToPlot = f"linear_{x}requests_max_per_sec.csv"
     #fileToPlot = f"output-linear_80requests_max_per_sec.csv"
 
     cpu_step = "2m"
 
     file_path = '../teastore.json'
 
-    save_path = f"../nantes/hyperthreading/16-07-2024/data/metrics/experimentation-constant_{x}requests_per_sec.csv/"
+    save_path = f"../nantes/hyperthreading/linear/17-07-2024/experimentation1/data/metrics/experimentation-linear_{x}requests_max_per_sec.csv/"
     #save_path = f"../nantes/hyperthreading/16-07-2024/data/metrics/experimentation-output-linear_80requests_max_per_sec.csv/"
 
-    save_graphics_at = f"../nantes/hyperthreading/16-07-2024/Plots"
+    save_graphics_at = f"../nantes/hyperthreading/linear/17-07-2024/Plots"
 
     parameters = read_parameters_from_json(file_path)
 

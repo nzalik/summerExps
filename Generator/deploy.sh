@@ -2,7 +2,7 @@
 
 export PATH="$HOME/.local/bin:$PATH"
 
-target="172.16.192.17"
+target="172.16.192.10"
 
 nb_thread=265
 

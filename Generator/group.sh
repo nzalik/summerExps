@@ -1,70 +1,120 @@
 #!/bin/bash
 
-run_first_command() {
-  java -jar httploadgenerator.jar director -s localhost -a "$file" -l "./teastore_buy.lua" -o "output-$file_name-restart-from-cluster2-10min-100req.csv" -t 256
-}
+export PATH="$HOME/.local/bin:$PATH"
 
-# Fonction pour exécuter la deuxième commande
-run_second_command() {
-  kopf run ../hooks_horizontal.py -n default --dev
-}
+target="172.16.192.9"
 
+nb_thread=256
+
+# Obtenir le répertoire parent
+parent_dir=$(dirname $(pwd))
+
+# Obtenir la date actuelle
+date_str=$(date +"%d-%m-%Y")
+
+category="linear"
+
+# Chemin complet du nouveau dossier
+new_folder_path="$parent_dir/nantes/nohyperthreading/$category/$date_str"
+
+# Créer le nouveau dossier s'il n'existe pas déjà
+if [ ! -d "$new_folder_path" ]; then
+    mkdir -p "$new_folder_path"
+fi
+
+# Compter le nombre de fichiers dans le répertoire $date_str
+file_count=$(ls -1 "$new_folder_path" | wc -l)
+
+# Créer le sous-répertoire "experimentation" avec le numéro
+exp_folder_path="$new_folder_path/experimentation$((file_count + 1))"
+
+if [ ! -d "$exp_folder_path" ]; then
+    mkdir -p "$exp_folder_path"
+fi
+
+
+wOutput="$exp_folder_path/warmup"
+lOutput="$exp_folder_path/data/load"
+
+if [ ! -d "$wOutput" ]; then
+    mkdir -p "$wOutput"
+fi
+
+if [ ! -d "$lOutput" ]; then
+    mkdir -p "$lOutput"
+fi
+
+#sleep 60
 # Liste des fichiers de charge
-workload_files=(
-  "intensity_profile-three-21-06-2024-10min-100.0requests.csv"
-)
+# shellcheck disable=SC2054
+#workload_files=(
+#   "intensity_profile-three-21-06-2024-10min-100.0requests.csv",
+#)
+workload_date=$(date +"%Y-%m-%d")
+workload_dir="../Load/profiles_$workload_date"
 
-workload_files_prefix="/home/erods-chouette/PycharmProjects/collectMetrics/Workloads/intensity_profile-three-28-06-2024-10min-130.0requests.csv"
+pwd
 
-prefix="/home/erods-chouette/PycharmProjects/collectMetrics"
+workload_files=($(ls "$workload_dir"/*.csv))
 
- pwd
 
- export KUBECONFIG=/home/erods-chouette/Documents/admin.conf
+warmup="const_linear_80requests_per_sec.csv"
 
-warmup="intensity_profile-three-26-06-2024-3min-10.0requests.csv"
+warmupFile="../warmUp/${warmup}"
 
+echo $warmupFile
+
+export KUBECONFIG=/home/ykoagnenzali/admin.conf
+
+#for file_name in workload_files:
 for file_name in "${workload_files[@]}"; do
-  echo "##################### Start cleaning the app ##################################################"
+
+echo $file_name
+
+input_string=$file_name
+output_part=$(basename "$input_string" .csv)
+output_part="${output_part#profiles_}"
+echo "$output_part"
+
+echo "##################### Initialisation ##################################################"
+
+# Créer le déploiement Kubernetes
+kubectl create -f ../custom_deployments/teastore-clusterip-1cpu-5giga.yaml
+
+sleep 300
+
+echo "##################### Sleeping before warmup ##################################################"
+
+#Lancer le générateur de charge HTTP
+java -jar httploadgenerator.jar director -s $target -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$output_part.csv" -t $nb_thread
+
+echo "##################### Sleeping before load ##################################################"
+
+sleep 240
+
+result="$output_part.csv"
+#result="output-$output_part.csv"
+
+res="$output_part.csv"
 
 
-  kubectl delete pods,deployments,services -l app=teastore
+java -jar httploadgenerator.jar director -s $target -a "$file_name" -l "./teastore_buy.lua" -o $result -t $nb_thread
 
-  echo "##################### Good bye cleaning ##################################################"
+echo "#########################Load Injection finished######################################"
 
-  echo "##################### Sleep for ten minutes ##################################################"
+sleep 180
 
-  sleep 300
+#moveRepo="../Load/intensity_profiles_2024-07-14/"
 
+python3 ../Fetcher/PostFetcher.py $res $workload_dir $exp_folder_path
 
-  warmupFile="${prefix}/Workloads/${warmup}"
-  file="${workload_files_prefix}"
+sleep 180
 
-  echo "##################### Initialisation ##################################################"
+#mv ../Load/intensity_profiles_2024-07-14/$result $lOutput
+mv "$workload_dir/$result" $lOutput
 
+kubectl delete pods,deployments,services -l app=teastore
 
-  # Créer le déploiement Kubernetes
-  kubectl create -f /home/erods-chouette/Documents/RESEARCH/BENCHMARK/Experimentations/TeaStore/examples/kubernetes/custom_deployments/teastore-clusterip-1cpu-5giga.yaml
-
-  sleep 180
-
-  #kubectl create -f "$prefix/autoscalers/autoscaler-nodb-noregistry-5-max-replicas.yaml"
-  #kubectl create -f "$prefix/autoscalers/metrics_server.yaml"
-
-  #sleep 60
-
-  # Lancer le générateur de charge HTTP
-  java -jar httploadgenerator.jar director -s localhost -a "$warmupFile" -l "./teastore_buy.lua" -o "warmup-$file_name-3min.csv" -t 256
-
- # echo "****************warmup end *******************************"
-  sleep 240
-
-  (run_first_command) &
-
-  sleep 300
-
-  (run_second_command) &
-
-  echo "##################### Started group ##################################################"
+sleep 600
 
 done

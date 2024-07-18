@@ -46,6 +46,6 @@ DURATION = 600.5  # Durée totale du profil de charge (en secondes)
 STEP_SIZE = 1.0
 START_VALUE = 0.5  # Valeur de départ
 #END_VALUE = [30, 40]  # Valeur finale
-END_VALUE = [80, 180, 200]  # Valeur finale
+END_VALUE = [50, 80, 100, 130, 150, 180, 200]  # Valeur finale
 
 generate_linear_profile(DURATION, STEP_SIZE, START_VALUE, END_VALUE)

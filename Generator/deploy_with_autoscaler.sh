@@ -83,9 +83,9 @@ kubectl create -f ../custom_deployments/teastore-clusterip-1cpu-5giga.yaml
 
 sleep 300
 
-kubectl create -f "../autoscalers/autoscaler-nodb-noregistry-5-max-replicas.yaml"
+#kubectl create -f "../autoscalers/autoscaler-nodb-noregistry-5-max-replicas.yaml"
 
-sleep 180
+#sleep 180
 
 echo "##################### Sleeping before warmup ##################################################"
 
